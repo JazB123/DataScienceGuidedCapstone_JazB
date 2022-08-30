@@ -190,7 +190,7 @@ Group by facid
 
 /* Q13: Find the facilities usage by month, but not guests */
 
-SELECT name, Facusage, facid, date_format(starttime, '%M') as month
+SELECT name, sum(Facusage), facid, date_format(starttime, '%M') as month
 from (SELECT f.name, b.facid, starttime,
 CASE
 WHEN b.memid != 0 then 1
@@ -199,3 +199,4 @@ END AS Facusage
 FROM `Bookings` as b
 Left Join Facilities as f
 on f.facid = b.facid) as subquery
+group by month, facid
